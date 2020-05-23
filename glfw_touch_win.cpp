@@ -354,13 +354,7 @@ LRESULT CALLBACK WindowProcSubclass(HWND Window, UINT Message, WPARAM WParam, LP
     return DefSubclassProc(Window, Message, WParam, LParam);
 }
 
-#ifdef Win32
-int CALLBACK
-WinMain(HINSTANCE Instance, HINSTANCE PrevInstance,
-LPSTR CmdLine, int ShowCode)
-#else
 int main()
-#endif
 {
     if (glfwInit())
     {

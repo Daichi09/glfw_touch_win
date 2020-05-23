@@ -57,12 +57,13 @@ REM 4127 conditional Expression is Constant
 REM 4530 C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
 set FlagsWarningDisable= /wd4100 /wd4201 /wd4189
 
-REM set FlagsDefines=-DDEFINE=1
+REM set FlagsDefines=-DWin32=1
 
 REM * Linker options *
 REM /OPT	Controls LINK optimizations
 REM /INCREMENTAL	Controls incremental linking.
 REM /STACK:reserve[,commit]	Sets the size of the stack in bytes.
+REM /SUBSYSTEM:{CONSOLE|WINDOWS)	Tells the operating system how to run the .exe file.
 REM /LD	Creates a dynamic-link library.
 
 set CommonCompilerFlags=%FlagsLinking% %FlagsOptimization% %FlagsMiscellaneous% %FlagsWarnings% %FlagsLanguage% %FlagsOutputFiles% %FlagsCodeGeneration% %FlagsWarningDisable% %FlagsDefines%
@@ -79,6 +80,6 @@ if not defined DevEnvDir (
 IF NOT EXIST build mkdir build
 pushd build
 
-cl %CommonCompilerFlags% ..\%MainCode% -Fe%ExeName%.exe /link /SUBSYSTEM:CONSOLE /NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMTD %CommonLinkerFlags%  
+cl %CommonCompilerFlags% ..\%MainCode% -Fe%ExeName%.exe /link /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup /NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMTD %CommonLinkerFlags%  
 
 popd
