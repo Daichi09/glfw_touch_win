@@ -1,7 +1,10 @@
 @echo off
 REM Settings-------------------------------------------------------------------------------------------------
-set ExeName=glfw_touch_win
-set MainCode=glfw_touch_win.cpp
+set ExeName1=glfw_touch_win
+set MainCode1=glfw_touch_win.cpp
+
+set ExeName2=raylib_touch_win
+set MainCode2=raylib_touch_win.cpp
 
 set Architecture=x64
 REM ---------------------------------------------------------------------------------------------------------
@@ -69,7 +72,7 @@ REM /LD	Creates a dynamic-link library.
 set CommonCompilerFlags=%FlagsLinking% %FlagsOptimization% %FlagsMiscellaneous% %FlagsWarnings% %FlagsLanguage% %FlagsOutputFiles% %FlagsCodeGeneration% %FlagsWarningDisable% %FlagsDefines%
 
 set CommonLinkerFlags= -opt:ref ^
-    -incremental:no User32.lib gdi32.lib Shell32.lib opengl32.lib msvcrt.lib ..\glfw3.lib
+    -incremental:no User32.lib gdi32.lib Shell32.lib opengl32.lib msvcrt.lib  
 
 REM Setup vcvars if they are not defined
 if not defined DevEnvDir (
@@ -80,6 +83,9 @@ if not defined DevEnvDir (
 IF NOT EXIST build mkdir build
 pushd build
 
-cl %CommonCompilerFlags% ..\%MainCode% -Fe%ExeName%.exe /link /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup /NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMTD %CommonLinkerFlags%  
+cl %CommonCompilerFlags% ..\%MainCode1% -Fe%ExeName1%.exe -I ..\glfw3 /link /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup /NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMTD %CommonLinkerFlags% ..\glfw\glfw3.lib 
+cl %CommonCompilerFlags% ..\%MainCode2% -Fe%ExeName2%.exe -I ..\raylib -Feraylib_touch_win.exe /link /NODEFAULTLIB:MSVCRTD /NODEFAULTLIB:LIBCMTD %CommonLinkerFlags% Kernel32.lib ..\raylib\raylib.lib
+
+echo n | COPY /-y "..\raylib\raylib.dll" "." > NUL
 
 popd
