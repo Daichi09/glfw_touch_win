@@ -344,7 +344,6 @@ LRESULT CALLBACK WindowProcSubclass(HWND Window, UINT Message, WPARAM WParam, LP
             case WM_POINTERCAPTURECHANGED:
             {
                 HandlePointerEvent(Window, Message, LParam, WParam);
-                InvalidateRect(Window, NULL, FALSE);
             } break;
             default:
             {
